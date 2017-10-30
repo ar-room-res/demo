@@ -36,6 +36,7 @@ function createDisplay(displayInfo) {
   var busyText = document.createElement('a-text');
   busyText.setAttribute('value', splitStringBreaks(displayInfo['displayStr'], 8));
   
+  busyText.setAttribute('width', '3');
   busyText.setAttribute('color', "#FFFFFF");
   busyText.setAttribute('position', '-0.5 0, 0.1');
   busyText.setAttribute('rotation', "0 0 -22.5");
