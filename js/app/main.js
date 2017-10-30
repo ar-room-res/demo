@@ -35,6 +35,7 @@ function createDisplay(displayInfo) {
   // TODO: text creation is duplicative, refactor
   var busyText = document.createElement('a-text');
   busyText.setAttribute('value', splitStringBreaks(displayInfo['displayStr'], 8));
+  
   busyText.setAttribute('color', "#FFFFFF");
   busyText.setAttribute('position', '-0.5 0, 0.1');
   busyText.setAttribute('rotation', "0 0 -22.5");
@@ -47,8 +48,9 @@ function createDisplay(displayInfo) {
 
   var freeText = document.createElement('a-text');
   freeText.setAttribute('value', splitStringBreaks(displayInfo['displayStr'], 8));
+  freeText.setAttribute('width', '3');
   freeText.setAttribute('color', "#000000");
-  freeText.setAttribute('position', '-0.5, 0, 0.1');
+  freeText.setAttribute('position', '-0.25, 0, 0.1');
   go.append(freeText);
 
   if (displayInfo['free'] === true) {
