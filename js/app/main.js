@@ -58,7 +58,7 @@ function createDisplay(displayInfo) {
   freeText.setAttribute('position', '0, 0, 0.1');
   go.append(freeText);
 
-  scene.appendChild(stop);
+  scene.appendChild(go);
   //  if (displayInfo['free'] === true) {
   //    scene.appendChild(go);
   //  }
@@ -74,7 +74,7 @@ function createDisplay(displayInfo) {
 function defineDisplay(todaysData){
 
   let now = roomTime["now"];
-  let dateString = now.format("Y-M-D")
+  let dateString = now.format("Y-M-D");
     let endOfDay = now.clone().endOf("day");
   let offset = "-0" + String(Math_abs(now._offset/60));
   let freeUntil = endOfDay; 
@@ -100,6 +100,7 @@ function defineDisplay(todaysData){
       }// end of checkFreeBusy
       ); // end of forEach
 
+        nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
   displayInfo['displayStr'] = "Busy until " + endMeetingStr;
   // generate the string from reservations data
   //  if (displayInfo['free'] === true){
@@ -126,7 +127,7 @@ function initData(data){
 
   var entries = data.feed.entry;
   roomTime["now"] = moment.tz(moment(), "America/Chicago");
-  let dateString = roomTime["now"].format("M/D/Y")
+  let dateString = roomTime["now"].format("M/D/Y");
     let confRoom = roomTime["roomID"];
   let confirmed = entries.filter(entry => entry["gsx$status"]["$t"]=="OK");
   let todaysReservations =  confirmed.filter(entry => entry["gsx$day"]["$t"] === dateString);
