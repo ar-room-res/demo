@@ -100,8 +100,8 @@ function defineDisplay(todaysData){
       }// end of checkFreeBusy
       ); // end of forEach
 
-        nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
-  displayInfo['displayStr'] = "Busy until " + endMeetingStr;
+  nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
+  displayInfo['displayStr'] = "Busy until " + nextMeetingStr;
   // generate the string from reservations data
   //  if (displayInfo['free'] === true){
   //    if (displayInfo["freeUntil"] == endOfDay) {
