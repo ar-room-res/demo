@@ -50,10 +50,11 @@ function createDisplay(displayInfo) {
 
   var freeText = document.createElement('a-text');
   freeText.setAttribute('value', splitStringBreaks(displayInfo['displayStr'], 8));
-  freeText.setAttribute('width', '3');
-  freeText.setAttribute('aligh', 'center');
+  freeText.setAttribute('scale', '0.5, 0.5, 0.5');
+  freeText.setAttribute('align', 'center');
+  freeText.setAttribute('width', '5');
   freeText.setAttribute('color', "#000000");
-  freeText.setAttribute('position', '-0.25, 0.5, 0.1');
+  freeText.setAttribute('position', '-0.25, 0, 0.1');
   go.append(freeText);
 
   scene.appendChild(go);
