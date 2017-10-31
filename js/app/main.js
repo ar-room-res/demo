@@ -44,7 +44,7 @@ function createDisplay(displayInfo) {
 
   var go = document.createElement('a-plane');
   go.setAttribute('color', '#7CFC00');
-  go.setAttribute('height', '0.5');
+  go.setAttribute('height', '0.7');
   go.setAttribute('position', '0, -0.25, 0');
   go.setAttribute('rotation', "-90 0 0");
 
