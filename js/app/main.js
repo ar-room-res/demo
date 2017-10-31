@@ -27,7 +27,7 @@ function createDisplay(displayInfo) {
   var scene = document.querySelector('a-scene');
 
   var stop = document.createElement('a-entity');
-  stop.setAttribute('geometry', 'primitive: circle; radius:1; segments:8');
+  stop.setAttribute('geometry', 'primitive: circle; radius:0.5; segments:8');
   stop.setAttribute('material', 'color: #FF0000;');
   stop.setAttribute('position', '0, 0.5, 0');
   stop.setAttribute('rotation', "-90 0 22.5");
@@ -54,12 +54,13 @@ function createDisplay(displayInfo) {
   freeText.setAttribute('position', '-0.25, 0, 0.1');
   go.append(freeText);
 
-  if (displayInfo['free'] === true) {
-    scene.appendChild(go);
-  }
-  else {
-    scene.appendChild(stop);
-  }
+  scene.appendChild(stop);
+//  if (displayInfo['free'] === true) {
+//    scene.appendChild(go);
+//  }
+//  else {
+//    scene.appendChild(stop);
+//  }
 } // end of drawing function
 
 /**
