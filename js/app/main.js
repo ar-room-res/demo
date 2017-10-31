@@ -53,7 +53,7 @@ function createDisplay(displayInfo) {
   freeText.setAttribute('width', '3');
   freeText.setAttribute('aligh', 'center');
   freeText.setAttribute('color', "#000000");
-  freeText.setAttribute('position', '-0.25, -0.5, 0.1');
+  freeText.setAttribute('position', '-0.25, 0.5, 0.1');
   go.append(freeText);
 
   scene.appendChild(go);
