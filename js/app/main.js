@@ -29,7 +29,7 @@ function createDisplay(displayInfo) {
   var stop = document.createElement('a-entity');
   stop.setAttribute('geometry', 'primitive: circle; radius:0.5; segments:8');
   stop.setAttribute('material', 'color: #FF0000;');
-  stop.setAttribute('position', '0, 0.5, 0');
+  stop.setAttribute('position', '0, 1, 0');
   stop.setAttribute('rotation', "-90 0 22.5");
   
   // TODO: text creation is duplicative, refactor
