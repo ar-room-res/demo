@@ -54,7 +54,7 @@ function createDisplay(displayInfo) {
   freeText.setAttribute('position', '-0.25, 0, 0.1');
   go.append(freeText);
 
-  scene.appendChild(stop);
+  scene.appendChild(go);
 //  if (displayInfo['free'] === true) {
 //    scene.appendChild(go);
 //  }
