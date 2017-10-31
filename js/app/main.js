@@ -6,15 +6,15 @@ let roomTime= {roomID: null}
  */
 function splitStringBreaks(inputStr, lineWidth){
   if (inputStr.length > lineWidth) {
-   let p = lineWidth;
-   for (;p>0 && inputStr[p]!= ' '; p--){
-    
-   }
-   if (p>0) {
-    var left = inputStr.substring(0, p);
-    var right = inputStr.substring(p+1);
-    return left + "\n" + splitStringBreaks(right, lineWidth, "\n");
-   }
+    let p = lineWidth;
+    for (;p>0 && inputStr[p]!= ' '; p--){
+
+    }
+    if (p>0) {
+      var left = inputStr.substring(0, p);
+      var right = inputStr.substring(p+1);
+      return left + "\n" + splitStringBreaks(right, lineWidth, "\n");
+    }
   }
   return inputStr;
 }
@@ -31,12 +31,13 @@ function createDisplay(displayInfo) {
   stop.setAttribute('material', 'color: #FF0000;');
   stop.setAttribute('position', '0, -0.25, 0');
   stop.setAttribute('rotation', "-90 0 22.5");
-  
+
   // TODO: text creation is duplicative, refactor
   var busyText = document.createElement('a-text');
   busyText.setAttribute('value', splitStringBreaks(displayInfo['displayStr'], 8));
-  
-  busyText.setAttribute('width', '3');
+  freeText.setAttribute('scale', '0.75, 0.5, 0.5');
+  freeText.setAttribute('align', 'center');
+  freeText.setAttribute('width', '5');
   busyText.setAttribute('color', "#FFFFFF");
   busyText.setAttribute('position', '-0.5 0, 0.1');
   busyText.setAttribute('rotation', "0 0 -22.5");
@@ -57,13 +58,13 @@ function createDisplay(displayInfo) {
   freeText.setAttribute('position', '0, 0, 0.1');
   go.append(freeText);
 
-  scene.appendChild(go);
-//  if (displayInfo['free'] === true) {
-//    scene.appendChild(go);
-//  }
-//  else {
-//    scene.appendChild(stop);
-//  }
+  scene.appendChild(stop);
+  //  if (displayInfo['free'] === true) {
+  //    scene.appendChild(go);
+  //  }
+  //  else {
+  //    scene.appendChild(stop);
+  //  }
 } // end of drawing function
 
 /**
@@ -71,10 +72,10 @@ function createDisplay(displayInfo) {
  * @param {object} todaysData - a JSON. the keys that are important for this program: [gsx$day, gsx$end, gsx$start, gsx$status, gsx$roomid]. For each key, the data is in an object accessible by the key "$t".
  */
 function defineDisplay(todaysData){
-  
+
   let now = roomTime["now"];
   let dateString = now.format("Y-M-D")
-  let endOfDay = now.clone().endOf("day");
+    let endOfDay = now.clone().endOf("day");
   let offset = "-0" + String(Math_abs(now._offset/60));
   let freeUntil = endOfDay; 
 
@@ -99,19 +100,20 @@ function defineDisplay(todaysData){
       }// end of checkFreeBusy
       ); // end of forEach
 
+  displayInfo['displayStr'] = "Busy until " + endMeetingStr;
   // generate the string from reservations data
-  if (displayInfo['free'] === true){
-    if (displayInfo["freeUntil"] == endOfDay) {
-      displayInfo["displayStr"] = "Unbooked for the rest of the day"; 
-    } else {
-      nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
-      displayInfo['displayStr'] =  "Free until " + nextMeetingStr;
-    } // end check for freeUntil
-  }// end freebusy True check
-  else {
-    endMeetingStr = displayInfo["busyUntil"].format("hh:mm:ss A");
-    displayInfo['displayStr'] = "Busy until " + endMeetingStr;
-  }// end check for free/busy
+  //  if (displayInfo['free'] === true){
+  //    if (displayInfo["freeUntil"] == endOfDay) {
+  //      displayInfo["displayStr"] = "Unbooked for the rest of the day"; 
+  //    } else {
+  //      nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
+  //      displayInfo['displayStr'] =  "Free until " + nextMeetingStr;
+  //    } // end check for freeUntil
+  //  }// end freebusy True check
+  //  else {
+  //    endMeetingStr = displayInfo["busyUntil"].format("hh:mm:ss A");
+  //    displayInfo['displayStr'] = "Busy until " + endMeetingStr;
+  //  }// end check for free/busy
   return displayInfo;
 
 }// end of defineRoomText
@@ -121,11 +123,11 @@ function defineDisplay(todaysData){
  * @param {object} data - the data is accessed by "data.feed.entry"
  */
 function initData(data){
-  
+
   var entries = data.feed.entry;
   roomTime["now"] = moment.tz(moment(), "America/Chicago");
   let dateString = roomTime["now"].format("M/D/Y")
-  let confRoom = roomTime["roomID"];
+    let confRoom = roomTime["roomID"];
   let confirmed = entries.filter(entry => entry["gsx$status"]["$t"]=="OK");
   let todaysReservations =  confirmed.filter(entry => entry["gsx$day"]["$t"] === dateString);
   let relevantData = todaysReservations.filter(entry => entry["gsx$roomid"]["$t"] === confRoom);
@@ -141,8 +143,8 @@ function loadData(url) {
 $(document).ready(function(){
 
   // TODO: this is not the most robust, but it works
- roomTime["roomID"] = window.location.href.split("?")[1].split("=")[1];
- moment.tz.setDefault("America/Chicago");
+  roomTime["roomID"] = window.location.href.split("?")[1].split("=")[1];
+  moment.tz.setDefault("America/Chicago");
   var url = "https://spreadsheets.google.com/feeds/list/17fRzMJDR8N3q18qM4mLfuKDulZFQJLVnmlPrVI4qBMc/od6/public/values?alt=json";
   loadData(url).then(initData).then(defineDisplay).then(createDisplay);
 
