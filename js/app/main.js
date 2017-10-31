@@ -58,13 +58,12 @@ function createDisplay(displayInfo) {
   freeText.setAttribute('position', '0, 0, 0.1');
   go.append(freeText);
 
-  scene.appendChild(go);
-  //  if (displayInfo['free'] === true) {
-  //    scene.appendChild(go);
-  //  }
-  //  else {
-  //    scene.appendChild(stop);
-  //  }
+    if (displayInfo['free'] === true) {
+      scene.appendChild(go);
+    }
+    else {
+      scene.appendChild(stop);
+    }
 } // end of drawing function
 
 /**
@@ -100,21 +99,19 @@ function defineDisplay(todaysData){
       }// end of checkFreeBusy
       ); // end of forEach
 
-  nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
-  displayInfo['displayStr'] = "Busy until " + nextMeetingStr;
   // generate the string from reservations data
-  //  if (displayInfo['free'] === true){
-  //    if (displayInfo["freeUntil"] == endOfDay) {
-  //      displayInfo["displayStr"] = "Unbooked for the rest of the day"; 
-  //    } else {
-  //      nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
-  //      displayInfo['displayStr'] =  "Free until " + nextMeetingStr;
-  //    } // end check for freeUntil
-  //  }// end freebusy True check
-  //  else {
-  //    endMeetingStr = displayInfo["busyUntil"].format("hh:mm:ss A");
-  //    displayInfo['displayStr'] = "Busy until " + endMeetingStr;
-  //  }// end check for free/busy
+    if (displayInfo['free'] === true){
+      if (displayInfo["freeUntil"] == endOfDay) {
+        displayInfo["displayStr"] = "Unbooked for the rest of the day"; 
+      } else {
+        nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
+        displayInfo['displayStr'] =  "Free until " + nextMeetingStr;
+      } // end check for freeUntil
+    }// end freebusy True check
+    else {
+      endMeetingStr = displayInfo["busyUntil"].format("hh:mm:ss A");
+      displayInfo['displayStr'] = "Busy until " + endMeetingStr;
+    }// end check for free/busy
   return displayInfo;
 
 }// end of defineRoomText
