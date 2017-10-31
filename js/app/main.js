@@ -50,7 +50,7 @@ function createDisplay(displayInfo) {
 
   var freeText = document.createElement('a-text');
   freeText.setAttribute('value', splitStringBreaks(displayInfo['displayStr'], 8));
-  freeText.setAttribute('scale', '0.75, 0.25, 0.5');
+  freeText.setAttribute('scale', '0.75, 0.4, 0.5');
   freeText.setAttribute('align', 'center');
   freeText.setAttribute('width', '5');
   freeText.setAttribute('color', "#000000");
