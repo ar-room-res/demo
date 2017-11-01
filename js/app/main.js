@@ -22,9 +22,9 @@ function splitStringBreaks(inputStr, lineWidth){
 /**
  * provides some visual demarcation that an error has occured.
  * */
-function displayError(displayInfo) {
-  let scene = document.querySelector('a-scene');
+function displayError() {
 
+  let scene = document.querySelector('a-scene');
   let square = document.createElement('a-entity');
   square.setAttribute('geometry', 'primitive: circle; radius:0.5; segments:4');
   square.setAttribute('material', 'color: #FFA500;');
