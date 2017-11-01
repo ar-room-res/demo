@@ -29,16 +29,17 @@ function displayError() {
   square.setAttribute('geometry', 'primitive: circle; radius:0.5; segments:4');
   square.setAttribute('material', 'color: #FFA500;');
   square.setAttribute('position', '0, -0.25, 0');
-  square.setAttribute('rotation', "-90 0 22.5");
+  square.setAttribute('rotation', "-90 0 45");
 
   let text = "An error occurred. Please check your url."
   var displayText = document.createElement('a-text');
   displayText.setAttribute('value', splitStringBreaks(text, 10));
-  displayText.setAttribute('scale', '0.75, 0.5, 0.5');
+  displayText.setAttribute('scale', '0.5, 0.5, 0.5');
   displayText.setAttribute('align', 'center');
   displayText.setAttribute('width', '5');
   displayText.setAttribute('color', "#000000");
   displayText.setAttribute('position', '0, 0, 0.1');
+  displayText.setAttribute('rotation', "0 0 -45");
   square.append(displayText);
 
   scene.append(square);
@@ -169,10 +170,11 @@ $(document).ready(function(){
 
   // TODO: this is not the most robust, but it works
   const roomID = window.location.href.split("?")[1].split("=")[1];
+  const validIDs = ['a', 'b', 'c', 'd', 'e', 'f'];
   roomTime["roomID"] = roomID;
   moment.tz.setDefault("America/Chicago");
   var url = "https://spreadsheets.google.com/feeds/list/17fRzMJDR8N3q18qM4mLfuKDulZFQJLVnmlPrVI4qBMc/od6/public/values?alt=json";
-  if ['a', 'b', 'c', 'd', 'e', 'f'].contains(roomID) {
+  if (validIDs.includes(roomID)) {
   loadData(url).then(initData).then(defineDisplay).then(createDisplay).catch(displayError);
   }
   else {
