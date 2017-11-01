@@ -20,6 +20,32 @@ function splitStringBreaks(inputStr, lineWidth){
 }
 
 /**
+ * provides some visual demarcation that an error has occured.
+ * */
+function displayError(displayInfo) {
+  let scene = document.querySelector('a-scene');
+
+  let square = document.createElement('a-entity');
+  square.setAttribute('geometry', 'primitive: circle; radius:0.5; segments:4');
+  square.setAttribute('material', 'color: #FFA500;');
+  square.setAttribute('position', '0, -0.25, 0');
+  square.setAttribute('rotation', "-90 0 22.5");
+
+  let text = "An error occurred. Please check your url."
+  var displayText = document.createElement('a-text');
+  displayText.setAttribute('value', splitStringBreaks(text, 10));
+  displayText.setAttribute('scale', '0.75, 0.5, 0.5');
+  displayText.setAttribute('align', 'center');
+  displayText.setAttribute('width', '5');
+  displayText.setAttribute('color', "#000000");
+  displayText.setAttribute('position', '0, 0, 0.1');
+  square.append(displayText);
+
+  scene.append(square);
+
+} // end of drawing function
+
+/**
  * Given an object with data, creates a-frame objects to represent the free or busy state of a conference room.
  * @param {object} displayInfo - an object witth keys free (bool), freeUntil (moment time object), busyUntil (moment time object), and displayStr (str) - a string with words for display.
  */
@@ -58,12 +84,12 @@ function createDisplay(displayInfo) {
   freeText.setAttribute('position', '0, 0, 0.1');
   go.append(freeText);
 
-    if (displayInfo['free'] === true) {
-      scene.appendChild(go);
-    }
-    else {
-      scene.appendChild(stop);
-    }
+  if (displayInfo['free'] === true) {
+    scene.appendChild(go);
+  }
+  else {
+    scene.appendChild(stop);
+  }
 } // end of drawing function
 
 /**
@@ -74,7 +100,7 @@ function defineDisplay(todaysData){
 
   let now = roomTime["now"];
   let dateString = now.format("Y-M-D");
-    let endOfDay = now.clone().endOf("day");
+  let endOfDay = now.clone().endOf("day");
   let offset = "-0" + String(Math_abs(now._offset/60));
   let freeUntil = endOfDay; 
 
@@ -100,18 +126,18 @@ function defineDisplay(todaysData){
       ); // end of forEach
 
   // generate the string from reservations data
-    if (displayInfo['free'] === true){
-      if (displayInfo["freeUntil"] == endOfDay) {
-        displayInfo["displayStr"] = "Unbooked for the rest of the day"; 
-      } else {
-        nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
-        displayInfo['displayStr'] =  "Free until " + nextMeetingStr;
-      } // end check for freeUntil
-    }// end freebusy True check
-    else {
-      endMeetingStr = displayInfo["busyUntil"].format("hh:mm:ss A");
-      displayInfo['displayStr'] = "Busy until " + endMeetingStr;
-    }// end check for free/busy
+  if (displayInfo['free'] === true){
+    if (displayInfo["freeUntil"] == endOfDay) {
+      displayInfo["displayStr"] = "Unbooked for the rest of the day"; 
+    } else {
+      nextMeetingStr = displayInfo["freeUntil"].format("hh:mm:ss A");
+      displayInfo['displayStr'] =  "Free until " + nextMeetingStr;
+    } // end check for freeUntil
+  }// end freebusy True check
+  else {
+    endMeetingStr = displayInfo["busyUntil"].format("hh:mm:ss A");
+    displayInfo['displayStr'] = "Busy until " + endMeetingStr;
+  }// end check for free/busy
   return displayInfo;
 
 }// end of defineRoomText
@@ -125,7 +151,7 @@ function initData(data){
   var entries = data.feed.entry;
   roomTime["now"] = moment.tz(moment(), "America/Chicago");
   let dateString = roomTime["now"].format("M/D/Y");
-    let confRoom = roomTime["roomID"];
+  let confRoom = roomTime["roomID"];
   let confirmed = entries.filter(entry => entry["gsx$status"]["$t"]=="OK");
   let todaysReservations =  confirmed.filter(entry => entry["gsx$day"]["$t"] === dateString);
   let relevantData = todaysReservations.filter(entry => entry["gsx$roomid"]["$t"] === confRoom);
@@ -140,10 +166,16 @@ function loadData(url) {
 
 $(document).ready(function(){
 
+
   // TODO: this is not the most robust, but it works
-  roomTime["roomID"] = window.location.href.split("?")[1].split("=")[1];
+  const roomID = window.location.href.split("?")[1].split("=")[1];
+  roomTime["roomID"] = roomID;
   moment.tz.setDefault("America/Chicago");
   var url = "https://spreadsheets.google.com/feeds/list/17fRzMJDR8N3q18qM4mLfuKDulZFQJLVnmlPrVI4qBMc/od6/public/values?alt=json";
-  loadData(url).then(initData).then(defineDisplay).then(createDisplay);
-
+  if ['a', 'b', 'c', 'd', 'e', 'f'].contains(roomID) {
+  loadData(url).then(initData).then(defineDisplay).then(createDisplay).catch(displayError);
+  }
+  else {
+  displayError(); 
+  }
 });// end of document.ready
